@@ -1,13 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<Form version="1.5" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
+<Form version="1.3" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
   <NonVisualComponents>
-    <Container class="javax.swing.JDialog" name="addUser">
+    <Container class="javax.swing.JDialog" name="addClient">
       <Properties>
         <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
           <Dimension value="[390, 550]"/>
         </Property>
         <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+          <Dimension value="[390, 550]"/>
+        </Property>
+        <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
           <Dimension value="[390, 550]"/>
         </Property>
         <Property name="resizable" type="boolean" value="false"/>
@@ -36,7 +39,7 @@
           <Layout>
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" attributes="0">
+                  <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" pref="106" max="-2" attributes="0"/>
                       <Component id="NetBest1" pref="178" max="32767" attributes="0"/>
                       <EmptySpace min="-2" pref="106" max="-2" attributes="0"/>
@@ -47,7 +50,7 @@
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace min="-2" pref="51" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="1" attributes="0">
-                                  <Group type="102" attributes="0">
+                                  <Group type="102" alignment="1" attributes="0">
                                       <Component id="jLabel16" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace max="-2" attributes="0"/>
                                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
@@ -55,7 +58,7 @@
                                           <Component id="imieText" alignment="0" min="-2" pref="200" max="-2" attributes="0"/>
                                       </Group>
                                   </Group>
-                                  <Group type="102" attributes="0">
+                                  <Group type="102" alignment="1" attributes="0">
                                       <Component id="jLabel15" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace max="-2" attributes="0"/>
                                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
@@ -63,35 +66,39 @@
                                           <Component id="hasloText" alignment="0" min="-2" pref="200" max="-2" attributes="0"/>
                                       </Group>
                                   </Group>
-                                  <Group type="102" attributes="0">
+                                  <Group type="102" alignment="1" attributes="0">
                                       <Component id="jLabel14" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace max="-2" attributes="0"/>
                                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                          <Component id="jSeparator4" max="32767" attributes="0"/>
-                                          <Component id="loginText" pref="200" max="32767" attributes="0"/>
+                                          <Component id="jSeparator4" alignment="0" max="32767" attributes="0"/>
+                                          <Component id="loginText" alignment="0" pref="200" max="32767" attributes="0"/>
                                       </Group>
                                   </Group>
                                   <Group type="102" alignment="1" attributes="0">
-                                      <Group type="103" groupAlignment="1" attributes="0">
-                                          <Component id="jLabel17" min="-2" max="-2" attributes="0"/>
-                                          <Component id="jLabel18" min="-2" max="-2" attributes="0"/>
-                                      </Group>
+                                      <Component id="jLabel17" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace max="-2" attributes="0"/>
                                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                          <Component id="jComboBox1" alignment="1" max="32767" attributes="0"/>
                                           <Component id="jSeparator8" alignment="0" max="32767" attributes="0"/>
                                           <Component id="nazwiskoText" alignment="1" pref="200" max="32767" attributes="0"/>
                                       </Group>
                                   </Group>
                               </Group>
                           </Group>
-                          <Group type="102" alignment="1" attributes="0">
+                          <Group type="102" attributes="0">
                               <EmptySpace max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                  <Component id="jPanel7" max="32767" attributes="0"/>
-                                  <Component id="jSeparator9" max="32767" attributes="0"/>
-                                  <Component id="jLabel25" alignment="0" max="32767" attributes="0"/>
-                                  <Component id="jLabel26" alignment="0" max="32767" attributes="0"/>
+                              <Group type="103" groupAlignment="1" attributes="0">
+                                  <Group type="103" alignment="1" groupAlignment="0" max="-2" attributes="0">
+                                      <Component id="jPanel7" alignment="0" max="32767" attributes="0"/>
+                                      <Component id="jSeparator9" alignment="0" max="32767" attributes="0"/>
+                                      <Component id="jLabel25" alignment="0" max="32767" attributes="0"/>
+                                      <Component id="jLabel26" alignment="0" max="32767" attributes="0"/>
+                                      <Component id="jLabel28" alignment="0" max="32767" attributes="0"/>
+                                  </Group>
+                                  <Group type="102" alignment="1" attributes="0">
+                                      <Component id="jLabel18" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Component id="jComboBox1" min="-2" pref="200" max="-2" attributes="0"/>
+                                  </Group>
                               </Group>
                           </Group>
                       </Group>
@@ -108,8 +115,8 @@
                       <Component id="jSeparator3" min="-2" pref="10" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="jLabel14" min="-2" max="-2" attributes="0"/>
-                          <Group type="102" attributes="0">
+                          <Component id="jLabel14" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Group type="102" alignment="0" attributes="0">
                               <Component id="loginText" max="32767" attributes="0"/>
                               <EmptySpace min="1" pref="1" max="-2" attributes="0"/>
                           </Group>
@@ -139,10 +146,10 @@
                       <Component id="jSeparator8" min="-2" pref="10" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="jComboBox1" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jLabel18" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jComboBox1" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="36" max="-2" attributes="0"/>
                       <Component id="jPanel7" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
                       <Component id="jSeparator9" min="-2" pref="10" max="-2" attributes="0"/>
@@ -150,7 +157,9 @@
                       <Component id="jLabel25" min="-2" pref="15" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="jLabel26" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace pref="95" max="32767" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="jLabel28" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace pref="57" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -177,7 +186,7 @@
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="2e" green="6" red="cf" type="rgb"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="Login:"/>
+                <Property name="text" type="java.lang.String" value="Imi&#x119;:"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JTextField" name="loginText">
@@ -200,7 +209,7 @@
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="2e" green="6" red="cf" type="rgb"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="Has&#x142;o:"/>
+                <Property name="text" type="java.lang.String" value="Nazwisko:"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JTextField" name="hasloText">
@@ -223,7 +232,7 @@
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="2e" green="6" red="cf" type="rgb"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="Imi&#x119;:"/>
+                <Property name="text" type="java.lang.String" value="Email:"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JTextField" name="imieText">
@@ -246,7 +255,7 @@
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="2e" green="6" red="cf" type="rgb"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="Nazwisko:"/>
+                <Property name="text" type="java.lang.String" value="Pesel:"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JTextField" name="nazwiskoText">
@@ -261,32 +270,6 @@
             </Component>
             <Component class="javax.swing.JSeparator" name="jSeparator8">
             </Component>
-            <Component class="javax.swing.JLabel" name="jLabel18">
-              <Properties>
-                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Tahoma" size="18" style="0"/>
-                </Property>
-                <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                  <Color blue="2e" green="6" red="cf" type="rgb"/>
-                </Property>
-                <Property name="text" type="java.lang.String" value="Dost&#x119;p:"/>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JComboBox" name="jComboBox1">
-              <Properties>
-                <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-                  <StringArray count="4">
-                    <StringItem index="0" value="Administrator"/>
-                    <StringItem index="1" value="Sprzedawca"/>
-                    <StringItem index="2" value="Ksiegowosc"/>
-                    <StringItem index="3" value="Zarzad"/>
-                  </StringArray>
-                </Property>
-              </Properties>
-              <AuxValues>
-                <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
-              </AuxValues>
-            </Component>
             <Container class="javax.swing.JPanel" name="jPanel7">
               <Properties>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
@@ -297,7 +280,10 @@
                 </Property>
               </Properties>
               <Events>
+                <EventHandler event="mouseDragged" listener="java.awt.event.MouseMotionListener" parameters="java.awt.event.MouseEvent" handler="jPanel7MouseDragged"/>
                 <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jPanel7MouseClicked"/>
+                <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jPanel7MouseEntered"/>
+                <EventHandler event="mouseExited" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jPanel7MouseExited"/>
               </Events>
 
               <Layout>
@@ -305,7 +291,7 @@
                   <Group type="103" groupAlignment="0" attributes="0">
                       <EmptySpace min="0" pref="283" max="32767" attributes="0"/>
                       <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
-                          <Group type="102" attributes="0">
+                          <Group type="102" alignment="0" attributes="0">
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="jLabel27" max="32767" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
@@ -339,9 +325,13 @@
                       <Color blue="2e" green="6" red="cf" type="rgb"/>
                     </Property>
                     <Property name="horizontalAlignment" type="int" value="0"/>
-                    <Property name="text" type="java.lang.String" value="Dodaj u&#x17c;ytkownika!"/>
+                    <Property name="text" type="java.lang.String" value="Dodaj klienta!"/>
                     <Property name="toolTipText" type="java.lang.String" value=""/>
                   </Properties>
+                  <Events>
+                    <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jLabel27MouseEntered"/>
+                    <EventHandler event="mouseExited" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jLabel27MouseExited"/>
+                  </Events>
                 </Component>
               </SubComponents>
             </Container>
@@ -375,9 +365,52 @@
                   <Color blue="2e" green="6" red="cf" type="rgb"/>
                 </Property>
                 <Property name="horizontalAlignment" type="int" value="0"/>
-                <Property name="text" type="java.lang.String" value="U&#x17c;ytkownik o podanym loginie ju&#x17c; istnieje!"/>
+                <Property name="text" type="java.lang.String" value="Klient o podanym Peselu ju&#x17c; istnieje!"/>
                 <Property name="toolTipText" type="java.lang.String" value=""/>
               </Properties>
+            </Component>
+            <Component class="javax.swing.JLabel" name="jLabel28">
+              <Properties>
+                <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="ff" green="ff" red="ff" type="rgb"/>
+                </Property>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="Tahoma" size="12" style="0"/>
+                </Property>
+                <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="2e" green="6" red="cf" type="rgb"/>
+                </Property>
+                <Property name="horizontalAlignment" type="int" value="0"/>
+                <Property name="text" type="java.lang.String" value="B&#x142;&#x119;dny pesel!"/>
+                <Property name="toolTipText" type="java.lang.String" value=""/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JLabel" name="jLabel18">
+              <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="Tahoma" size="18" style="0"/>
+                </Property>
+                <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="2e" green="6" red="cf" type="rgb"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="Sprzedawca:"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JComboBox" name="jComboBox1">
+              <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="Tahoma" size="12" style="0"/>
+                </Property>
+                <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+                  <StringArray count="0"/>
+                </Property>
+                <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+                  <Border info="null"/>
+                </Property>
+              </Properties>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+              </AuxValues>
             </Component>
           </SubComponents>
         </Container>
@@ -389,9 +422,6 @@
           <Dimension value="[400, 200]"/>
         </Property>
         <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-          <Dimension value="[400, 200]"/>
-        </Property>
-        <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
           <Dimension value="[400, 200]"/>
         </Property>
         <Property name="resizable" type="boolean" value="false"/>
@@ -423,7 +453,7 @@
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="jLabel29" max="32767" attributes="0"/>
+                          <Component id="jLabel30" alignment="0" max="32767" attributes="0"/>
                           <Group type="102" alignment="1" attributes="0">
                               <Component id="jPanel9" min="-2" max="-2" attributes="0"/>
                               <EmptySpace pref="68" max="32767" attributes="0"/>
@@ -434,10 +464,10 @@
                   </Group>
                   <Group type="102" alignment="1" attributes="0">
                       <EmptySpace max="32767" attributes="0"/>
-                      <Component id="jLabel28" min="-2" pref="193" max="-2" attributes="0"/>
+                      <Component id="jLabel29" min="-2" pref="154" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jLabel1" min="-2" pref="84" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="32" max="-2" attributes="0"/>
+                      <Component id="jLabel1" min="-2" pref="114" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="52" max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -446,11 +476,11 @@
                   <Group type="102" alignment="1" attributes="0">
                       <EmptySpace pref="22" max="32767" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="jLabel1" max="32767" attributes="0"/>
-                          <Component id="jLabel28" min="-2" pref="15" max="-2" attributes="0"/>
+                          <Component id="jLabel1" alignment="0" max="32767" attributes="0"/>
+                          <Component id="jLabel29" alignment="0" min="-2" pref="15" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="jLabel29" min="-2" pref="15" max="-2" attributes="0"/>
+                      <Component id="jLabel30" min="-2" pref="15" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="jPanel9" alignment="1" min="-2" max="-2" attributes="0"/>
@@ -462,7 +492,7 @@
             </DimensionLayout>
           </Layout>
           <SubComponents>
-            <Component class="javax.swing.JLabel" name="jLabel28">
+            <Component class="javax.swing.JLabel" name="jLabel29">
               <Properties>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
@@ -474,7 +504,7 @@
                   <Color blue="2e" green="6" red="cf" type="rgb"/>
                 </Property>
                 <Property name="horizontalAlignment" type="int" value="0"/>
-                <Property name="text" type="java.lang.String" value="Czy chcesz usun&#x105;&#x107; u&#x17c;ytkownika:"/>
+                <Property name="text" type="java.lang.String" value="Czy chcesz usun&#x105;&#x107; klienta:"/>
                 <Property name="toolTipText" type="java.lang.String" value=""/>
               </Properties>
             </Component>
@@ -534,6 +564,7 @@
                 </Property>
               </Properties>
               <Events>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jPanel10MouseClicked"/>
                 <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jPanel10MouseEntered"/>
                 <EventHandler event="mouseExited" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jPanel10MouseExited"/>
               </Events>
@@ -569,7 +600,7 @@
                 </Component>
               </SubComponents>
             </Container>
-            <Component class="javax.swing.JLabel" name="jLabel29">
+            <Component class="javax.swing.JLabel" name="jLabel30">
               <Properties>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
@@ -596,7 +627,7 @@
         </Container>
       </SubComponents>
     </Container>
-    <Container class="javax.swing.JDialog" name="updateUser">
+    <Container class="javax.swing.JDialog" name="updateClient">
       <Properties>
         <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
           <Dimension value="[390, 550]"/>
@@ -664,35 +695,21 @@
                                       <Component id="jLabel19" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace max="-2" attributes="0"/>
                                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                          <Component id="jSeparator11" pref="200" max="32767" attributes="0"/>
-                                          <Component id="jLabel4" max="32767" attributes="0"/>
-                                      </Group>
-                                  </Group>
-                                  <Group type="102" alignment="1" attributes="0">
-                                      <Group type="103" groupAlignment="1" attributes="0">
-                                          <Component id="jLabel22" alignment="1" min="-2" max="-2" attributes="0"/>
-                                          <Component id="jLabel23" alignment="1" min="-2" max="-2" attributes="0"/>
-                                      </Group>
-                                      <EmptySpace max="-2" attributes="0"/>
-                                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                          <Component id="jComboBox2" alignment="1" max="32767" attributes="0"/>
-                                          <Component id="jSeparator14" alignment="0" max="32767" attributes="0"/>
-                                          <Component id="nazwiskoText1" alignment="1" pref="200" max="32767" attributes="0"/>
+                                          <Component id="jSeparator11" alignment="0" max="32767" attributes="0"/>
+                                          <Component id="loginText1" alignment="0" pref="200" max="32767" attributes="0"/>
                                       </Group>
                                   </Group>
                               </Group>
                           </Group>
                           <Group type="102" alignment="1" attributes="0">
-                              <EmptySpace max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="29" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" max="-2" attributes="0">
                                   <Component id="jPanel12" alignment="0" max="32767" attributes="0"/>
                                   <Component id="jSeparator15" alignment="0" max="32767" attributes="0"/>
-                                  <Component id="jLabel31" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="jLabel32" alignment="0" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                       </Group>
-                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Component id="jCheckBox1" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="32767" attributes="0"/>
                   </Group>
               </Group>
@@ -706,18 +723,18 @@
                       <Component id="jSeparator10" min="-2" pref="10" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="jLabel19" max="32767" attributes="0"/>
-                          <Component id="jLabel4" max="32767" attributes="0"/>
+                          <Component id="jLabel19" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Group type="102" alignment="0" attributes="0">
+                              <Component id="loginText1" max="32767" attributes="0"/>
+                              <EmptySpace min="1" pref="1" max="-2" attributes="0"/>
+                          </Group>
                       </Group>
                       <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
                       <Component id="jSeparator11" min="-2" pref="10" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="1" attributes="0">
-                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                              <Component id="jLabel20" alignment="0" min="-2" max="-2" attributes="0"/>
-                              <Component id="hasloText1" alignment="0" max="32767" attributes="0"/>
-                          </Group>
-                          <Component id="jCheckBox1" min="-2" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                          <Component id="jLabel20" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="hasloText1" alignment="0" min="-2" pref="21" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
                       <Component id="jSeparator12" min="-2" pref="10" max="-2" attributes="0"/>
@@ -728,25 +745,13 @@
                       </Group>
                       <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
                       <Component id="jSeparator13" min="-2" pref="10" max="-2" attributes="0"/>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="jLabel22" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="nazwiskoText1" alignment="0" min="-2" pref="21" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
-                      <Component id="jSeparator14" min="-2" pref="10" max="-2" attributes="0"/>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="jComboBox2" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jLabel23" alignment="3" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="127" max="-2" attributes="0"/>
                       <Component id="jPanel12" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
                       <Component id="jSeparator15" min="-2" pref="10" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Component id="jLabel31" min="-2" pref="15" max="-2" attributes="0"/>
-                      <EmptySpace pref="116" max="32767" attributes="0"/>
+                      <Component id="jLabel32" min="-2" pref="15" max="-2" attributes="0"/>
+                      <EmptySpace pref="99" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -773,8 +778,18 @@
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="2e" green="6" red="cf" type="rgb"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="Login:"/>
+                <Property name="text" type="java.lang.String" value="Imi&#x119;:"/>
               </Properties>
+            </Component>
+            <Component class="javax.swing.JTextField" name="loginText1">
+              <Properties>
+                <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+                  <Border info="null"/>
+                </Property>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="loginText1ActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JSeparator" name="jSeparator11">
             </Component>
@@ -786,7 +801,7 @@
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="2e" green="6" red="cf" type="rgb"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="Has&#x142;o:"/>
+                <Property name="text" type="java.lang.String" value="Nazwisko:"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JTextField" name="hasloText1">
@@ -794,7 +809,6 @@
                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                   <Border info="null"/>
                 </Property>
-                <Property name="enabled" type="boolean" value="false"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="hasloText1ActionPerformed"/>
@@ -810,7 +824,7 @@
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="2e" green="6" red="cf" type="rgb"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="Imi&#x119;:"/>
+                <Property name="text" type="java.lang.String" value="Email:"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JTextField" name="imieText1">
@@ -824,55 +838,6 @@
               </Events>
             </Component>
             <Component class="javax.swing.JSeparator" name="jSeparator13">
-            </Component>
-            <Component class="javax.swing.JLabel" name="jLabel22">
-              <Properties>
-                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Tahoma" size="18" style="0"/>
-                </Property>
-                <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                  <Color blue="2e" green="6" red="cf" type="rgb"/>
-                </Property>
-                <Property name="text" type="java.lang.String" value="Nazwisko:"/>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JTextField" name="nazwiskoText1">
-              <Properties>
-                <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-                  <Border info="null"/>
-                </Property>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="nazwiskoText1ActionPerformed"/>
-              </Events>
-            </Component>
-            <Component class="javax.swing.JSeparator" name="jSeparator14">
-            </Component>
-            <Component class="javax.swing.JLabel" name="jLabel23">
-              <Properties>
-                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Tahoma" size="18" style="0"/>
-                </Property>
-                <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                  <Color blue="2e" green="6" red="cf" type="rgb"/>
-                </Property>
-                <Property name="text" type="java.lang.String" value="Dost&#x119;p:"/>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JComboBox" name="jComboBox2">
-              <Properties>
-                <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-                  <StringArray count="4">
-                    <StringItem index="0" value="Administrator"/>
-                    <StringItem index="1" value="Sprzedawca"/>
-                    <StringItem index="2" value="Ksiegowosc"/>
-                    <StringItem index="3" value="Zarzad"/>
-                  </StringArray>
-                </Property>
-              </Properties>
-              <AuxValues>
-                <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
-              </AuxValues>
             </Component>
             <Container class="javax.swing.JPanel" name="jPanel12">
               <Properties>
@@ -896,7 +861,7 @@
                       <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jLabel30" max="32767" attributes="0"/>
+                              <Component id="jLabel31" max="32767" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                           </Group>
                       </Group>
@@ -908,7 +873,7 @@
                       <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace min="-2" pref="22" max="-2" attributes="0"/>
-                              <Component id="jLabel30" min="-2" pref="15" max="-2" attributes="0"/>
+                              <Component id="jLabel31" min="-2" pref="15" max="-2" attributes="0"/>
                               <EmptySpace pref="22" max="32767" attributes="0"/>
                           </Group>
                       </Group>
@@ -916,7 +881,7 @@
                 </DimensionLayout>
               </Layout>
               <SubComponents>
-                <Component class="javax.swing.JLabel" name="jLabel30">
+                <Component class="javax.swing.JLabel" name="jLabel31">
                   <Properties>
                     <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                       <Color blue="ff" green="ff" red="ff" type="rgb"/>
@@ -928,15 +893,19 @@
                       <Color blue="2e" green="6" red="cf" type="rgb"/>
                     </Property>
                     <Property name="horizontalAlignment" type="int" value="0"/>
-                    <Property name="text" type="java.lang.String" value="Edytuj u&#x17c;ytkownika!"/>
+                    <Property name="text" type="java.lang.String" value="Edytuj Klienta"/>
                     <Property name="toolTipText" type="java.lang.String" value=""/>
                   </Properties>
+                  <Events>
+                    <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jLabel31MouseEntered"/>
+                    <EventHandler event="mouseExited" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jLabel31MouseExited"/>
+                  </Events>
                 </Component>
               </SubComponents>
             </Container>
             <Component class="javax.swing.JSeparator" name="jSeparator15">
             </Component>
-            <Component class="javax.swing.JLabel" name="jLabel31">
+            <Component class="javax.swing.JLabel" name="jLabel32">
               <Properties>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
@@ -952,26 +921,6 @@
                 <Property name="toolTipText" type="java.lang.String" value=""/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JLabel" name="jLabel4">
-              <Properties>
-                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Tahoma" size="12" style="0"/>
-                </Property>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JCheckBox" name="jCheckBox1">
-              <Properties>
-                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Tahoma" size="12" style="0"/>
-                </Property>
-                <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-                  <Border info="null"/>
-                </Property>
-              </Properties>
-              <Events>
-                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jCheckBox1MouseClicked"/>
-              </Events>
-            </Component>
           </SubComponents>
         </Container>
       </SubComponents>
@@ -986,6 +935,9 @@
     <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
       <Dimension value="[600, 625]"/>
     </Property>
+    <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+      <Dimension value="[600, 625]"/>
+    </Property>
     <Property name="resizable" type="boolean" value="false"/>
   </Properties>
   <SyntheticProperties>
@@ -993,8 +945,6 @@
     <SyntheticProperty name="generateCenter" type="boolean" value="false"/>
   </SyntheticProperties>
   <Events>
-    <EventHandler event="windowClosed" listener="java.awt.event.WindowListener" parameters="java.awt.event.WindowEvent" handler="formWindowClosed"/>
-    <EventHandler event="windowClosing" listener="java.awt.event.WindowListener" parameters="java.awt.event.WindowEvent" handler="formWindowClosing"/>
     <EventHandler event="windowOpened" listener="java.awt.event.WindowListener" parameters="java.awt.event.WindowEvent" handler="formWindowOpened"/>
   </Events>
   <AuxValues>
@@ -1032,7 +982,7 @@
       <Layout>
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Group type="102" attributes="0">
+              <Group type="102" alignment="0" attributes="0">
                   <EmptySpace min="-2" pref="213" max="-2" attributes="0"/>
                   <Component id="NetBest" max="32767" attributes="0"/>
                   <EmptySpace min="-2" pref="213" max="-2" attributes="0"/>
@@ -1053,8 +1003,8 @@
                   <Component id="jPanel4" min="-2" max="-2" attributes="0"/>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="jSeparator7" max="-2" attributes="0"/>
-                      <Component id="jPanel5" min="-2" max="-2" attributes="0"/>
+                      <Component id="jSeparator7" alignment="0" max="-2" attributes="0"/>
+                      <Component id="jPanel5" alignment="0" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="32767" attributes="0"/>
               </Group>
@@ -1065,7 +1015,7 @@
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="1" attributes="0">
-                      <Group type="102" attributes="0">
+                      <Group type="102" alignment="1" attributes="0">
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" alignment="0" attributes="0">
                                   <Component id="NetBest" min="-2" max="-2" attributes="0"/>
@@ -1080,12 +1030,12 @@
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="1" attributes="0">
-                              <Component id="jPanel2" min="-2" max="-2" attributes="0"/>
-                              <Component id="jPanel3" min="-2" max="-2" attributes="0"/>
-                              <Component id="jPanel4" min="-2" max="-2" attributes="0"/>
+                              <Component id="jPanel2" alignment="1" min="-2" max="-2" attributes="0"/>
+                              <Component id="jPanel3" alignment="1" min="-2" max="-2" attributes="0"/>
+                              <Component id="jPanel4" alignment="1" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
-                      <Component id="jPanel5" min="-2" max="-2" attributes="0"/>
+                      <Component id="jPanel5" alignment="1" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace pref="50" max="32767" attributes="0"/>
               </Group>
@@ -1117,7 +1067,7 @@
               <Properties>
                 <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
                   <Table columnCount="5" rowCount="38">
-                    <Column editable="false" title="Login" type="java.lang.Object">
+                    <Column editable="false" title="Sprzedawca" type="java.lang.Object">
                       <Data value=""/>
                       <Data value="null"/>
                       <Data value="null"/>
@@ -1157,7 +1107,7 @@
                       <Data value="null"/>
                       <Data value="null"/>
                     </Column>
-                    <Column editable="false" title="Has&#x142;o" type="java.lang.Object">
+                    <Column editable="false" title="Imie" type="java.lang.Object">
                       <Data value=""/>
                       <Data value="null"/>
                       <Data value="null"/>
@@ -1197,7 +1147,7 @@
                       <Data value="null"/>
                       <Data value="null"/>
                     </Column>
-                    <Column editable="false" title="Uprawnienia" type="java.lang.Object">
+                    <Column editable="false" title="Nazwisko" type="java.lang.Object">
                       <Data value=""/>
                       <Data value="null"/>
                       <Data value="null"/>
@@ -1237,7 +1187,7 @@
                       <Data value="null"/>
                       <Data value="null"/>
                     </Column>
-                    <Column editable="false" title="Imi&#x119;" type="java.lang.Object">
+                    <Column editable="false" title="Email" type="java.lang.Object">
                       <Data value=""/>
                       <Data value="null"/>
                       <Data value="null"/>
@@ -1277,32 +1227,32 @@
                       <Data value="null"/>
                       <Data value="null"/>
                     </Column>
-                    <Column editable="false" title="Nazwisko" type="java.lang.Object"/>
+                    <Column editable="false" title="Pesel" type="java.lang.Object"/>
                   </Table>
                 </Property>
                 <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
                   <TableColumnModel selectionModel="0">
-                    <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="false">
+                    <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
                       <Title/>
                       <Editor/>
                       <Renderer/>
                     </Column>
-                    <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="false">
+                    <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
                       <Title/>
                       <Editor/>
                       <Renderer/>
                     </Column>
-                    <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="false">
+                    <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
                       <Title/>
                       <Editor/>
                       <Renderer/>
                     </Column>
-                    <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="false">
+                    <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
                       <Title/>
                       <Editor/>
                       <Renderer/>
                     </Column>
-                    <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="false">
+                    <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
                       <Title/>
                       <Editor/>
                       <Renderer/>

@@ -12,14 +12,17 @@ import java.security.NoSuchAlgorithmException;
 import java.sql.ResultSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import static sun.security.jgss.GSSUtil.login;
 
 public class LogWindow extends javax.swing.JFrame {
-
+String login;
     class DB{
     Connection conn;
     boolean zalogowany;
     PreparedStatement stmt = null;
     ResultSet rs;
+    
+    
     public DB(){
             
 }
@@ -38,7 +41,7 @@ public String hashPassword(String password) throws NoSuchAlgorithmException{
     
     public void click() throws NoSuchAlgorithmException{
 
-String login = loginText.getText();
+login = loginText.getText();
 String pass = passText.getText();
 if (login.equals("")||pass.equals("")){
     error.setVisible(true);
@@ -72,19 +75,19 @@ else {
       try {
          if (stmt != null) { stmt.close(); }
       }
-      catch (Exception e) {
+      catch (SQLException e) {
          
       }
       try {
          if (conn != null) { conn.close(); }
       }
-      catch (Exception e) {
+      catch (SQLException e) {
        
       }
    }
     }
     }
-    
+   
  
     public LogWindow() {
         initComponents();
@@ -360,7 +363,7 @@ DB db = new DB();
     db.click();
    if(db.zalogowany==true){
     zmiana.setVisible(true);
-    this.dispose();}
+    this.setVisible(false);}
     else{
         error.setVisible(true);
     }
@@ -405,10 +408,11 @@ DB db = new DB();
     MainWindow zmiana;
     zmiana = new MainWindow();
     zmiana.db = db;
+    
     db.click();
     if(db.zalogowany==true){
     zmiana.setVisible(true);
-    this.dispose();}
+    this.setVisible(false);}
     else{
         error.setVisible(true);
     }

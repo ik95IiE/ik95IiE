@@ -39,7 +39,8 @@ public class MainWindow extends javax.swing.JFrame {
         NetBest = new javax.swing.JLabel();
         usersButton = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
-        jPanel3 = new javax.swing.JPanel();
+        klienciButton = new javax.swing.JPanel();
+        jLabel3 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
         jPanel6 = new javax.swing.JPanel();
@@ -110,15 +111,48 @@ public class MainWindow extends javax.swing.JFrame {
                     .addContainerGap(39, Short.MAX_VALUE)))
         );
 
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+        klienciButton.setBackground(new java.awt.Color(255, 255, 255));
+        klienciButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        klienciButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                klienciButtonMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                klienciButtonMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                klienciButtonMouseExited(evt);
+            }
+        });
+
+        jLabel3.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(207, 6, 46));
+        jLabel3.setText("Klienci");
+        jLabel3.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jLabel3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                jLabel3MouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                jLabel3MouseExited(evt);
+            }
+        });
+
+        javax.swing.GroupLayout klienciButtonLayout = new javax.swing.GroupLayout(klienciButton);
+        klienciButton.setLayout(klienciButtonLayout);
+        klienciButtonLayout.setHorizontalGroup(
+            klienciButtonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(klienciButtonLayout.createSequentialGroup()
+                .addGap(80, 80, 80)
+                .addComponent(jLabel3)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 100, Short.MAX_VALUE)
+        klienciButtonLayout.setVerticalGroup(
+            klienciButtonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(klienciButtonLayout.createSequentialGroup()
+                .addGap(38, 38, 38)
+                .addComponent(jLabel3)
+                .addContainerGap(40, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
@@ -163,7 +197,7 @@ public class MainWindow extends javax.swing.JFrame {
                 .addComponent(NetBest, javax.swing.GroupLayout.DEFAULT_SIZE, 166, Short.MAX_VALUE)
                 .addGap(25, 25, 25))
             .addComponent(usersButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(klienciButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -183,7 +217,7 @@ public class MainWindow extends javax.swing.JFrame {
                 .addGap(0, 0, 0)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(klienciButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
@@ -242,6 +276,31 @@ upanel.setVisible(true);
         // TODO add your handling code here:
     }//GEN-LAST:event_usersButtonMouseClicked
 
+    private void klienciButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_klienciButtonMouseClicked
+ClientsWindow cpanel;
+cpanel= new ClientsWindow();
+cpanel.setVisible(true);
+        // TODO add your handling code here:
+    }//GEN-LAST:event_klienciButtonMouseClicked
+
+    private void jLabel3MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel3MouseEntered
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jLabel3MouseEntered
+
+    private void jLabel3MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel3MouseExited
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jLabel3MouseExited
+
+    private void klienciButtonMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_klienciButtonMouseEntered
+klienciButton.setBackground(Color.getHSBColor(0, 0, (float) 0.97));
+        // TODO add your handling code here:
+    }//GEN-LAST:event_klienciButtonMouseEntered
+
+    private void klienciButtonMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_klienciButtonMouseExited
+klienciButton.setBackground(Color.getHSBColor(0, 0, (float) 1));
+        // TODO add your handling code here:
+    }//GEN-LAST:event_klienciButtonMouseExited
+
     /**
      * @param args the command line arguments
      */
@@ -280,8 +339,8 @@ upanel.setVisible(true);
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel NetBest;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
@@ -292,6 +351,7 @@ upanel.setVisible(true);
     private javax.swing.JSeparator jSeparator5;
     private javax.swing.JSeparator jSeparator6;
     private javax.swing.JSeparator jSeparator7;
+    private javax.swing.JPanel klienciButton;
     private javax.swing.JPanel usersButton;
     // End of variables declaration//GEN-END:variables
 }

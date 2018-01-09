@@ -6,54 +6,37 @@
 package com.mycompany.netbest;
 
 import java.awt.Color;
-import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.text.MessageFormat;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
-import java.sql.*;
 import javax.swing.table.DefaultTableModel;
-
 
 /**
  *
  * @author domin
  */
-public class UserPanel extends javax.swing.JFrame {
-    LogWindow.DB db;
-    String pozwolenie;
-    String imie;
-    String nazwisko;
-    String login;
-    String haslo;
-    boolean istnieje;
+public class ClientsWindow extends javax.swing.JFrame {
     Connection conn;
     PreparedStatement stmt = null;
     ResultSet rs;
     Statement statement;
     String queryString;
     int selectedRowIndex;
-    String jakieHaslo;
-    
-    
-    public String hashPassword(String password) throws NoSuchAlgorithmException{
-        MessageDigest md = MessageDigest.getInstance("SHA");
-        md.update(password.getBytes());
-        byte[] b = md.digest();
-        StringBuffer sb = new StringBuffer();
-        for(byte b1 : b){
-            sb.append(Integer.toHexString(b1 & 0xff).toString());
-        }
-        return sb.toString();
-    }
-    
+    boolean istnieje;
+    String login;
+
+
     public void odswiez() throws SQLException, NoSuchAlgorithmException{
+        
         
         for(int i=0;i<37;i++){
               userTable.getModel().setValueAt(" ", i, 0);
@@ -66,15 +49,15 @@ public class UserPanel extends javax.swing.JFrame {
         try{
               
               conn = DriverManager.getConnection("jdbc:mysql://sql2.freesqldatabase.com/sql2212964", "sql2212964", "tV5!yB5!");
-              queryString = "Select * from Users;";
+              queryString = "Select * from Clients;";
               statement= conn.createStatement();
               rs = statement.executeQuery(queryString);
             for(int i=0;rs.next();i++){
               userTable.getModel().setValueAt(rs.getString("Login"), i, 0);
-              userTable.getModel().setValueAt(rs.getString("Password"), i, 1);
-              userTable.getModel().setValueAt(rs.getString("Private"), i, 2);
-              userTable.getModel().setValueAt(rs.getString("Name"), i, 3);
-              userTable.getModel().setValueAt(rs.getString("Lastname"), i, 4);
+              userTable.getModel().setValueAt(rs.getString("Name"), i, 1);
+              userTable.getModel().setValueAt(rs.getString("Lastname"), i, 2);
+              userTable.getModel().setValueAt(rs.getString("Email"), i, 3);
+              userTable.getModel().setValueAt(rs.getString("Pesel"), i, 4);
               }
        }
        catch(Exception e){
@@ -82,22 +65,18 @@ public class UserPanel extends javax.swing.JFrame {
               }
     }
     
-    
-            
-    
-    
-    public void dodajUser () throws SQLException, NoSuchAlgorithmException{
+    public void dodajClient () throws SQLException, NoSuchAlgorithmException{
             
    try {
-      stmt = conn.prepareStatement("INSERT INTO `sql2212964`.`Users` (`Login`, `Password`, `Private`, `Name`, `Lastname`) VALUES (?,?,?,?,?);");
-      stmt.setString(1, login);
-      stmt.setString(2, hashPassword(haslo));
-      stmt.setString(3, pozwolenie);
-      stmt.setString(4, imie);
-      stmt.setString(5, nazwisko);
+      stmt = conn.prepareStatement("INSERT INTO `sql2212964`.`Clients` (`Login`, `Name`, `Lastname`, `Email`, `Pesel`) VALUES (?,?,?,?,?);");
+      stmt.setString(2, loginText.getText());
+      stmt.setString(3, hasloText.getText());
+      stmt.setString(4, imieText.getText());
+      stmt.setString(5, nazwiskoText.getText());
+      stmt.setString(1, jComboBox1.getSelectedItem().toString());
       stmt.executeUpdate();
       odswiez();
-      addUser.setVisible(false);
+      addClient.setVisible(false);
    }
    finally {
       try {
@@ -117,14 +96,64 @@ public class UserPanel extends javax.swing.JFrame {
     
             
         }
+    
+    public void combo() throws SQLException{
+        try {
+      conn = DriverManager.getConnection("jdbc:mysql://sql2.freesqldatabase.com/sql2212964", "sql2212964", "tV5!yB5!");
+      stmt = conn.prepareStatement("SELECT login FROM Users");
+      stmt.executeQuery();       
+      rs = stmt.executeQuery( ); 
+      while(rs.next()){  
+          jComboBox1.addItem(rs.getString(1)); 
+   
+      }
+   }
+   finally {
+      try {
+         if (stmt != null) { stmt.close(); }
+      }
+      catch (SQLException e) {
+         
+      }
+      try {
+         if (conn != null) { conn.close(); }
+      }
+      catch (SQLException e) {
+       
+      }
+   }
+    
+}
+    
+    public boolean sprawdz(String pesel){
+  // zakładamy tablicę z wagami
+  int[] wagi = {1, 3, 7, 9, 1, 3, 7 ,9 ,1 ,3};
 
-    /**
-     * Creates new form UserPanel
-     */
-    public UserPanel() {
+  // sprawdzamy długość PESEL'a, jeśli nie jest to 11 zwracamy false
+  if (pesel.length() != 11) return false;
+  
+  // zakładamy zmienną będącą sumą kontrolną
+  int suma = 0;
+  
+  // liczymy w pętli sumę kontrolną przemnażając odpowiednie
+  // cyfry z PESEL'a przez odpowiednie wagi
+  for (int i = 0; i < 10; i++)
+     suma += Integer.parseInt(pesel.substring(i, i+1)) * wagi[i];
+  
+  // pobieramy do zmiennej cyfraKontrolna wartość ostatniej cyfry z PESEL'a   
+  int cyfraKontrolna = Integer.parseInt(pesel.substring(10, 11));
 
-        
-        
+  // obliczamy cyfrę kontrolną z sumy (najpierw modulo 10 potem odejmujemy 10 i jeszcze raz modulo 10)
+  suma %= 10;
+  suma = 10 - suma;
+  suma %= 10;
+  
+  // zwracamy wartość logiczną porównania obliczonej i pobranej cyfry kontrolnej
+  return (suma == cyfraKontrolna);
+  
+ }
+    
+    public ClientsWindow() {
         initComponents();
     }
 
@@ -137,7 +166,7 @@ public class UserPanel extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        addUser = new javax.swing.JDialog();
+        addClient = new javax.swing.JDialog();
         jPanel6 = new javax.swing.JPanel();
         NetBest1 = new javax.swing.JLabel();
         jSeparator3 = new javax.swing.JSeparator();
@@ -153,27 +182,29 @@ public class UserPanel extends javax.swing.JFrame {
         jLabel17 = new javax.swing.JLabel();
         nazwiskoText = new javax.swing.JTextField();
         jSeparator8 = new javax.swing.JSeparator();
-        jLabel18 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
         jPanel7 = new javax.swing.JPanel();
         jLabel27 = new javax.swing.JLabel();
         jSeparator9 = new javax.swing.JSeparator();
         jLabel25 = new javax.swing.JLabel();
         jLabel26 = new javax.swing.JLabel();
+        jLabel28 = new javax.swing.JLabel();
+        jLabel18 = new javax.swing.JLabel();
+        jComboBox1 = new javax.swing.JComboBox<>();
         czyUsun = new javax.swing.JDialog();
         jPanel8 = new javax.swing.JPanel();
-        jLabel28 = new javax.swing.JLabel();
+        jLabel29 = new javax.swing.JLabel();
         jPanel9 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jPanel10 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
-        jLabel29 = new javax.swing.JLabel();
+        jLabel30 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
-        updateUser = new javax.swing.JDialog();
+        updateClient = new javax.swing.JDialog();
         jPanel11 = new javax.swing.JPanel();
         NetBest2 = new javax.swing.JLabel();
         jSeparator10 = new javax.swing.JSeparator();
         jLabel19 = new javax.swing.JLabel();
+        loginText1 = new javax.swing.JTextField();
         jSeparator11 = new javax.swing.JSeparator();
         jLabel20 = new javax.swing.JLabel();
         hasloText1 = new javax.swing.JTextField();
@@ -181,17 +212,10 @@ public class UserPanel extends javax.swing.JFrame {
         jLabel21 = new javax.swing.JLabel();
         imieText1 = new javax.swing.JTextField();
         jSeparator13 = new javax.swing.JSeparator();
-        jLabel22 = new javax.swing.JLabel();
-        nazwiskoText1 = new javax.swing.JTextField();
-        jSeparator14 = new javax.swing.JSeparator();
-        jLabel23 = new javax.swing.JLabel();
-        jComboBox2 = new javax.swing.JComboBox<>();
         jPanel12 = new javax.swing.JPanel();
-        jLabel30 = new javax.swing.JLabel();
-        jSeparator15 = new javax.swing.JSeparator();
         jLabel31 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        jCheckBox1 = new javax.swing.JCheckBox();
+        jSeparator15 = new javax.swing.JSeparator();
+        jLabel32 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         NetBest = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
@@ -208,9 +232,10 @@ public class UserPanel extends javax.swing.JFrame {
         jLabel13 = new javax.swing.JLabel();
         jSeparator7 = new javax.swing.JSeparator();
 
-        addUser.setMaximumSize(new java.awt.Dimension(390, 550));
-        addUser.setMinimumSize(new java.awt.Dimension(390, 550));
-        addUser.setResizable(false);
+        addClient.setMaximumSize(new java.awt.Dimension(390, 550));
+        addClient.setMinimumSize(new java.awt.Dimension(390, 550));
+        addClient.setPreferredSize(new java.awt.Dimension(390, 550));
+        addClient.setResizable(false);
 
         jPanel6.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -220,7 +245,7 @@ public class UserPanel extends javax.swing.JFrame {
 
         jLabel14.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel14.setForeground(new java.awt.Color(207, 6, 46));
-        jLabel14.setText("Login:");
+        jLabel14.setText("Imię:");
 
         loginText.setBorder(null);
         loginText.addActionListener(new java.awt.event.ActionListener() {
@@ -231,7 +256,7 @@ public class UserPanel extends javax.swing.JFrame {
 
         jLabel15.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel15.setForeground(new java.awt.Color(207, 6, 46));
-        jLabel15.setText("Hasło:");
+        jLabel15.setText("Nazwisko:");
 
         hasloText.setBorder(null);
         hasloText.addActionListener(new java.awt.event.ActionListener() {
@@ -242,7 +267,7 @@ public class UserPanel extends javax.swing.JFrame {
 
         jLabel16.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel16.setForeground(new java.awt.Color(207, 6, 46));
-        jLabel16.setText("Imię:");
+        jLabel16.setText("Email:");
 
         imieText.setBorder(null);
         imieText.addActionListener(new java.awt.event.ActionListener() {
@@ -253,7 +278,7 @@ public class UserPanel extends javax.swing.JFrame {
 
         jLabel17.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel17.setForeground(new java.awt.Color(207, 6, 46));
-        jLabel17.setText("Nazwisko:");
+        jLabel17.setText("Pesel:");
 
         nazwiskoText.setBorder(null);
         nazwiskoText.addActionListener(new java.awt.event.ActionListener() {
@@ -262,17 +287,22 @@ public class UserPanel extends javax.swing.JFrame {
             }
         });
 
-        jLabel18.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabel18.setForeground(new java.awt.Color(207, 6, 46));
-        jLabel18.setText("Dostęp:");
-
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Administrator", "Sprzedawca", "Ksiegowosc", "Zarzad" }));
-
         jPanel7.setBackground(new java.awt.Color(255, 255, 255));
         jPanel7.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jPanel7.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseDragged(java.awt.event.MouseEvent evt) {
+                jPanel7MouseDragged(evt);
+            }
+        });
         jPanel7.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jPanel7MouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                jPanel7MouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                jPanel7MouseExited(evt);
             }
         });
 
@@ -280,8 +310,16 @@ public class UserPanel extends javax.swing.JFrame {
         jLabel27.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jLabel27.setForeground(new java.awt.Color(207, 6, 46));
         jLabel27.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel27.setText("Dodaj użytkownika!");
+        jLabel27.setText("Dodaj klienta!");
         jLabel27.setToolTipText("");
+        jLabel27.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                jLabel27MouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                jLabel27MouseExited(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
         jPanel7.setLayout(jPanel7Layout);
@@ -315,8 +353,22 @@ public class UserPanel extends javax.swing.JFrame {
         jLabel26.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jLabel26.setForeground(new java.awt.Color(207, 6, 46));
         jLabel26.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel26.setText("Użytkownik o podanym loginie już istnieje!");
+        jLabel26.setText("Klient o podanym Peselu już istnieje!");
         jLabel26.setToolTipText("");
+
+        jLabel28.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel28.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jLabel28.setForeground(new java.awt.Color(207, 6, 46));
+        jLabel28.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel28.setText("Błędny pesel!");
+        jLabel28.setToolTipText("");
+
+        jLabel18.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel18.setForeground(new java.awt.Color(207, 6, 46));
+        jLabel18.setText("Sprzedawca:");
+
+        jComboBox1.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jComboBox1.setBorder(null);
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
@@ -351,21 +403,24 @@ public class UserPanel extends javax.swing.JFrame {
                                     .addComponent(jSeparator4)
                                     .addComponent(loginText, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)))
                             .addGroup(jPanel6Layout.createSequentialGroup()
-                                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLabel17)
-                                    .addComponent(jLabel18))
+                                .addComponent(jLabel17)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jComboBox1, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(jSeparator8)
                                     .addComponent(nazwiskoText, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)))))
                     .addGroup(jPanel6Layout.createSequentialGroup()
                         .addContainerGap()
-                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jSeparator9)
-                            .addComponent(jLabel25, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel26, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jSeparator9)
+                                .addComponent(jLabel25, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabel26, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabel28, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(jPanel6Layout.createSequentialGroup()
+                                .addComponent(jLabel18)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel6Layout.setVerticalGroup(
@@ -403,9 +458,9 @@ public class UserPanel extends javax.swing.JFrame {
                 .addComponent(jSeparator8, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel18))
-                .addGap(18, 18, 18)
+                    .addComponent(jLabel18)
+                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(36, 36, 36)
                 .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
                 .addComponent(jSeparator9, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -413,33 +468,34 @@ public class UserPanel extends javax.swing.JFrame {
                 .addComponent(jLabel25, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel26)
-                .addContainerGap(95, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel28)
+                .addContainerGap(57, Short.MAX_VALUE))
         );
 
-        javax.swing.GroupLayout addUserLayout = new javax.swing.GroupLayout(addUser.getContentPane());
-        addUser.getContentPane().setLayout(addUserLayout);
-        addUserLayout.setHorizontalGroup(
-            addUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        javax.swing.GroupLayout addClientLayout = new javax.swing.GroupLayout(addClient.getContentPane());
+        addClient.getContentPane().setLayout(addClientLayout);
+        addClientLayout.setHorizontalGroup(
+            addClientLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
-        addUserLayout.setVerticalGroup(
-            addUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        addClientLayout.setVerticalGroup(
+            addClientLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         czyUsun.setMaximumSize(new java.awt.Dimension(400, 200));
         czyUsun.setMinimumSize(new java.awt.Dimension(400, 200));
-        czyUsun.setPreferredSize(new java.awt.Dimension(400, 200));
         czyUsun.setResizable(false);
 
         jPanel8.setBackground(new java.awt.Color(255, 255, 255));
 
-        jLabel28.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel28.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        jLabel28.setForeground(new java.awt.Color(207, 6, 46));
-        jLabel28.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel28.setText("Czy chcesz usunąć użytkownika:");
-        jLabel28.setToolTipText("");
+        jLabel29.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel29.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jLabel29.setForeground(new java.awt.Color(207, 6, 46));
+        jLabel29.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel29.setText("Czy chcesz usunąć klienta:");
+        jLabel29.setToolTipText("");
 
         jPanel9.setBackground(new java.awt.Color(255, 255, 255));
         jPanel9.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -478,6 +534,9 @@ public class UserPanel extends javax.swing.JFrame {
         jPanel10.setBackground(new java.awt.Color(255, 255, 255));
         jPanel10.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jPanel10.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jPanel10MouseClicked(evt);
+            }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 jPanel10MouseEntered(evt);
             }
@@ -506,12 +565,12 @@ public class UserPanel extends javax.swing.JFrame {
                 .addContainerGap(40, Short.MAX_VALUE))
         );
 
-        jLabel29.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel29.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        jLabel29.setForeground(new java.awt.Color(207, 6, 46));
-        jLabel29.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel29.setText("UWAGA! Ta operacja jest nieodwracalna!");
-        jLabel29.setToolTipText("");
+        jLabel30.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel30.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jLabel30.setForeground(new java.awt.Color(207, 6, 46));
+        jLabel30.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel30.setText("UWAGA! Ta operacja jest nieodwracalna!");
+        jLabel30.setToolTipText("");
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
 
@@ -522,7 +581,7 @@ public class UserPanel extends javax.swing.JFrame {
             .addGroup(jPanel8Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel29, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel30, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel8Layout.createSequentialGroup()
                         .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 68, Short.MAX_VALUE)
@@ -530,10 +589,10 @@ public class UserPanel extends javax.swing.JFrame {
                 .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel8Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel28, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jLabel29, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(32, 32, 32))
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(52, 52, 52))
         );
         jPanel8Layout.setVerticalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -541,9 +600,9 @@ public class UserPanel extends javax.swing.JFrame {
                 .addContainerGap(22, Short.MAX_VALUE)
                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel28, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel29, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addComponent(jLabel29, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jLabel30, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel9, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -562,10 +621,10 @@ public class UserPanel extends javax.swing.JFrame {
             .addComponent(jPanel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
-        updateUser.setMaximumSize(new java.awt.Dimension(390, 550));
-        updateUser.setMinimumSize(new java.awt.Dimension(390, 550));
-        updateUser.setPreferredSize(new java.awt.Dimension(390, 550));
-        updateUser.setResizable(false);
+        updateClient.setMaximumSize(new java.awt.Dimension(390, 550));
+        updateClient.setMinimumSize(new java.awt.Dimension(390, 550));
+        updateClient.setPreferredSize(new java.awt.Dimension(390, 550));
+        updateClient.setResizable(false);
 
         jPanel11.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -575,14 +634,20 @@ public class UserPanel extends javax.swing.JFrame {
 
         jLabel19.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel19.setForeground(new java.awt.Color(207, 6, 46));
-        jLabel19.setText("Login:");
+        jLabel19.setText("Imię:");
+
+        loginText1.setBorder(null);
+        loginText1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                loginText1ActionPerformed(evt);
+            }
+        });
 
         jLabel20.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel20.setForeground(new java.awt.Color(207, 6, 46));
-        jLabel20.setText("Hasło:");
+        jLabel20.setText("Nazwisko:");
 
         hasloText1.setBorder(null);
-        hasloText1.setEnabled(false);
         hasloText1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 hasloText1ActionPerformed(evt);
@@ -591,7 +656,7 @@ public class UserPanel extends javax.swing.JFrame {
 
         jLabel21.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel21.setForeground(new java.awt.Color(207, 6, 46));
-        jLabel21.setText("Imię:");
+        jLabel21.setText("Email:");
 
         imieText1.setBorder(null);
         imieText1.addActionListener(new java.awt.event.ActionListener() {
@@ -599,23 +664,6 @@ public class UserPanel extends javax.swing.JFrame {
                 imieText1ActionPerformed(evt);
             }
         });
-
-        jLabel22.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabel22.setForeground(new java.awt.Color(207, 6, 46));
-        jLabel22.setText("Nazwisko:");
-
-        nazwiskoText1.setBorder(null);
-        nazwiskoText1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                nazwiskoText1ActionPerformed(evt);
-            }
-        });
-
-        jLabel23.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabel23.setForeground(new java.awt.Color(207, 6, 46));
-        jLabel23.setText("Dostęp:");
-
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Administrator", "Sprzedawca", "Ksiegowosc", "Zarzad" }));
 
         jPanel12.setBackground(new java.awt.Color(255, 255, 255));
         jPanel12.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -631,12 +679,20 @@ public class UserPanel extends javax.swing.JFrame {
             }
         });
 
-        jLabel30.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel30.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        jLabel30.setForeground(new java.awt.Color(207, 6, 46));
-        jLabel30.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel30.setText("Edytuj użytkownika!");
-        jLabel30.setToolTipText("");
+        jLabel31.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel31.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jLabel31.setForeground(new java.awt.Color(207, 6, 46));
+        jLabel31.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel31.setText("Edytuj Klienta");
+        jLabel31.setToolTipText("");
+        jLabel31.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                jLabel31MouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                jLabel31MouseExited(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel12Layout = new javax.swing.GroupLayout(jPanel12);
         jPanel12.setLayout(jPanel12Layout);
@@ -646,7 +702,7 @@ public class UserPanel extends javax.swing.JFrame {
             .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel12Layout.createSequentialGroup()
                     .addContainerGap()
-                    .addComponent(jLabel30, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel31, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addContainerGap()))
         );
         jPanel12Layout.setVerticalGroup(
@@ -655,26 +711,16 @@ public class UserPanel extends javax.swing.JFrame {
             .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel12Layout.createSequentialGroup()
                     .addGap(22, 22, 22)
-                    .addComponent(jLabel30, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel31, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addContainerGap(22, Short.MAX_VALUE)))
         );
 
-        jLabel31.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel31.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        jLabel31.setForeground(new java.awt.Color(207, 6, 46));
-        jLabel31.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel31.setText("Nie uzupełniono wszystkich pól!");
-        jLabel31.setToolTipText("");
-
-        jLabel4.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-
-        jCheckBox1.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        jCheckBox1.setBorder(null);
-        jCheckBox1.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jCheckBox1MouseClicked(evt);
-            }
-        });
+        jLabel32.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel32.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jLabel32.setForeground(new java.awt.Color(207, 6, 46));
+        jLabel32.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel32.setText("Nie uzupełniono wszystkich pól!");
+        jLabel32.setToolTipText("");
 
         javax.swing.GroupLayout jPanel11Layout = new javax.swing.GroupLayout(jPanel11);
         jPanel11.setLayout(jPanel11Layout);
@@ -706,25 +752,14 @@ public class UserPanel extends javax.swing.JFrame {
                                 .addComponent(jLabel19)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jSeparator11, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
-                                    .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                            .addGroup(jPanel11Layout.createSequentialGroup()
-                                .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLabel22)
-                                    .addComponent(jLabel23))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jComboBox2, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jSeparator14)
-                                    .addComponent(nazwiskoText1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)))))
+                                    .addComponent(jSeparator11)
+                                    .addComponent(loginText1, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)))))
                     .addGroup(jPanel11Layout.createSequentialGroup()
-                        .addContainerGap()
+                        .addGap(29, 29, 29)
                         .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jPanel12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jSeparator15)
-                            .addComponent(jLabel31, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jCheckBox1)
+                            .addComponent(jLabel32, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel11Layout.setVerticalGroup(
@@ -736,16 +771,16 @@ public class UserPanel extends javax.swing.JFrame {
                 .addComponent(jSeparator10, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel19, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jLabel19)
+                    .addGroup(jPanel11Layout.createSequentialGroup()
+                        .addComponent(loginText1)
+                        .addGap(1, 1, 1)))
                 .addGap(0, 0, 0)
                 .addComponent(jSeparator11, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(jLabel20)
-                        .addComponent(hasloText1))
-                    .addComponent(jCheckBox1))
+                .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel20)
+                    .addComponent(hasloText1, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(0, 0, 0)
                 .addComponent(jSeparator12, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
@@ -754,33 +789,23 @@ public class UserPanel extends javax.swing.JFrame {
                     .addComponent(imieText1, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(0, 0, 0)
                 .addComponent(jSeparator13, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel22)
-                    .addComponent(nazwiskoText1, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 0, 0)
-                .addComponent(jSeparator14, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel23))
-                .addGap(18, 18, 18)
+                .addGap(127, 127, 127)
                 .addComponent(jPanel12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
                 .addComponent(jSeparator15, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel31, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(116, Short.MAX_VALUE))
+                .addComponent(jLabel32, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(99, Short.MAX_VALUE))
         );
 
-        javax.swing.GroupLayout updateUserLayout = new javax.swing.GroupLayout(updateUser.getContentPane());
-        updateUser.getContentPane().setLayout(updateUserLayout);
-        updateUserLayout.setHorizontalGroup(
-            updateUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        javax.swing.GroupLayout updateClientLayout = new javax.swing.GroupLayout(updateClient.getContentPane());
+        updateClient.getContentPane().setLayout(updateClientLayout);
+        updateClientLayout.setHorizontalGroup(
+            updateClientLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
-        updateUserLayout.setVerticalGroup(
-            updateUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        updateClientLayout.setVerticalGroup(
+            updateClientLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
@@ -788,14 +813,9 @@ public class UserPanel extends javax.swing.JFrame {
         setTitle("NetBest");
         setMaximumSize(new java.awt.Dimension(600, 625));
         setMinimumSize(new java.awt.Dimension(600, 625));
+        setPreferredSize(new java.awt.Dimension(600, 625));
         setResizable(false);
         addWindowListener(new java.awt.event.WindowAdapter() {
-            public void windowClosed(java.awt.event.WindowEvent evt) {
-                formWindowClosed(evt);
-            }
-            public void windowClosing(java.awt.event.WindowEvent evt) {
-                formWindowClosing(evt);
-            }
             public void windowOpened(java.awt.event.WindowEvent evt) {
                 formWindowOpened(evt);
             }
@@ -849,7 +869,7 @@ public class UserPanel extends javax.swing.JFrame {
                 {null, null, null, null, null}
             },
             new String [] {
-                "Login", "Hasło", "Uprawnienia", "Imię", "Nazwisko"
+                "Sprzedawca", "Imie", "Nazwisko", "Email", "Pesel"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -866,13 +886,6 @@ public class UserPanel extends javax.swing.JFrame {
             }
         });
         jScrollPane1.setViewportView(userTable);
-        if (userTable.getColumnModel().getColumnCount() > 0) {
-            userTable.getColumnModel().getColumn(0).setResizable(false);
-            userTable.getColumnModel().getColumn(1).setResizable(false);
-            userTable.getColumnModel().getColumn(2).setResizable(false);
-            userTable.getColumnModel().getColumn(3).setResizable(false);
-            userTable.getColumnModel().getColumn(4).setResizable(false);
-        }
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
         jPanel2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -1079,77 +1092,119 @@ public class UserPanel extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
-
+    private void userTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_userTableMouseClicked
+DefaultTableModel model = (DefaultTableModel)userTable.getModel();
+selectedRowIndex = userTable.getSelectedRow();
+login = (String) userTable.getValueAt(selectedRowIndex, 1)+" "+(String) userTable.getValueAt(selectedRowIndex, 2);
+        
         // TODO add your handling code here:
-    }//GEN-LAST:event_formWindowClosing
+    }//GEN-LAST:event_userTableMouseClicked
 
-    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
-
+    private void jPanel2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel2MouseClicked
+addClient.setVisible(true);
+        try {
+            combo();
+        } catch (SQLException ex) {
+            Logger.getLogger(ClientsWindow.class.getName()).log(Level.SEVERE, null, ex);
+        }
+       jLabel25.setVisible(false);
+       jLabel26.setVisible(false);
+       jLabel28.setVisible(false);
+        
+       
         // TODO add your handling code here:
-    }//GEN-LAST:event_formWindowClosed
-
-    private void jPanel5MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel5MouseEntered
-jPanel5.setBackground(Color.getHSBColor(0, 0, (float) 0.98));
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jPanel5MouseEntered
-
-    private void jPanel5MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel5MouseExited
-jPanel5.setBackground(Color.getHSBColor(0, 0, (float) 1));
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jPanel5MouseExited
+    }//GEN-LAST:event_jPanel2MouseClicked
 
     private void jPanel2MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel2MouseEntered
-jPanel2.setBackground(Color.getHSBColor(0, 0, (float) 0.98));
+jPanel2.setBackground(Color.getHSBColor(0, 0, (float) 0.97));    
         // TODO add your handling code here:
     }//GEN-LAST:event_jPanel2MouseEntered
 
     private void jPanel2MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel2MouseExited
-jPanel2.setBackground(Color.getHSBColor(0, 0, (float) 1));
+
+        jPanel2.setBackground(Color.getHSBColor(0, 0, (float) 1));  
         // TODO add your handling code here:
     }//GEN-LAST:event_jPanel2MouseExited
 
-    private void jPanel4MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel4MouseEntered
-jPanel4.setBackground(Color.getHSBColor(0, 0, (float) 0.98));
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jPanel4MouseEntered
+    private void jPanel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel3MouseClicked
+if(login.equals("") || login.equals("   ")){
+    
+}
+else{
+czyUsun.setVisible(true);
+jLabel1.setText(login);
+}
 
-    private void jPanel4MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel4MouseExited
-jPanel4.setBackground(Color.getHSBColor(0, 0, (float) 1));
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jPanel4MouseExited
+    }//GEN-LAST:event_jPanel3MouseClicked
 
     private void jPanel3MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel3MouseEntered
-jPanel3.setBackground(Color.getHSBColor(0, 0, (float) 0.98));
+jPanel3.setBackground(Color.getHSBColor(0, 0, (float) 0.97));      
         // TODO add your handling code here:
     }//GEN-LAST:event_jPanel3MouseEntered
 
     private void jPanel3MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel3MouseExited
-jPanel3.setBackground(Color.getHSBColor(0, 0, (float) 1));
+jPanel3.setBackground(Color.getHSBColor(0, 0, (float) 1));       
         // TODO add your handling code here:
     }//GEN-LAST:event_jPanel3MouseExited
+
+    private void jPanel4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel4MouseClicked
+if(login.equals("") || login.equals("   ")){
+    
+}
+else{
+        jLabel32.setVisible(false);
+updateClient.setVisible(true);
+loginText1.setText((String) userTable.getValueAt(selectedRowIndex, 1));
+hasloText1.setText((String) userTable.getValueAt(selectedRowIndex, 2));
+        imieText1.setText((String) userTable.getValueAt(selectedRowIndex, 3));
+}
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jPanel4MouseClicked
+
+    private void jPanel4MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel4MouseEntered
+jPanel4.setBackground(Color.getHSBColor(0, 0, (float) 0.97));          
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jPanel4MouseEntered
+
+    private void jPanel4MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel4MouseExited
+jPanel4.setBackground(Color.getHSBColor(0, 0, (float) 1));            
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jPanel4MouseExited
 
     private void jPanel5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel5MouseClicked
 try{
     MessageFormat header;
-    header = new MessageFormat("Tabela użytkowników");
+    header = new MessageFormat("Tabela klientów");
     MessageFormat footer;
     footer = new MessageFormat("NetBest");
     userTable.print(JTable.PrintMode.FIT_WIDTH, header, footer);
 }
 catch(Exception e){
     JOptionPane.showMessageDialog(null, e);
-}
+}       
         // TODO add your handling code here:
     }//GEN-LAST:event_jPanel5MouseClicked
 
-    private void jPanel2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel2MouseClicked
-
-       addUser.setVisible(true);
-       jLabel25.setVisible(false);
-       jLabel26.setVisible(false);
+    private void jPanel5MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel5MouseEntered
+jPanel5.setBackground(Color.getHSBColor(0, 0, (float) 0.97));       
         // TODO add your handling code here:
-    }//GEN-LAST:event_jPanel2MouseClicked
+    }//GEN-LAST:event_jPanel5MouseEntered
+
+    private void jPanel5MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel5MouseExited
+    jPanel5.setBackground(Color.getHSBColor(0, 0, (float) 1));
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jPanel5MouseExited
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        try {
+            odswiez();
+            // TODO add your handling code here:
+        } catch (SQLException ex) {
+            Logger.getLogger(ClientsWindow.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (NoSuchAlgorithmException ex) {
+            Logger.getLogger(ClientsWindow.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_formWindowOpened
 
     private void loginTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginTextActionPerformed
         // TODO add your handling code here:
@@ -1168,19 +1223,16 @@ catch(Exception e){
     }//GEN-LAST:event_nazwiskoTextActionPerformed
 
     private void jPanel7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel7MouseClicked
-        this.imie = imieText.getText();
-        this.nazwisko = nazwiskoText.getText();
-        this.login = loginText.getText();
-        this.haslo = hasloText.getText();
-        this.pozwolenie=(String) jComboBox1.getSelectedItem();
-        if(imie.equals("")||nazwisko.equals("")||login.equals("")||haslo.equals("")){
+        if(loginText.getText().equals("")||hasloText.getText().equals("")||imieText.getText().equals("")||nazwiskoText.getText().equals("")||imieText.getText().indexOf("@")==-1){
             jLabel25.setVisible(true);
         }
         else{
-            try {
+            if(sprawdz(nazwiskoText.getText())==true){
+            
+     try {
       conn = DriverManager.getConnection("jdbc:mysql://sql2.freesqldatabase.com/sql2212964", "sql2212964", "tV5!yB5!");        
-      stmt = conn.prepareStatement("SELECT COUNT(login) FROM Users WHERE login = ?");
-      stmt.setString(1, login);
+      stmt = conn.prepareStatement("SELECT COUNT(Pesel) FROM Clients WHERE login = ?");
+      stmt.setString(1, nazwiskoText.getText());
       stmt.executeQuery(); 
       ResultSet rs;
       rs = stmt.executeQuery( ); 
@@ -1188,7 +1240,7 @@ catch(Exception e){
           istnieje = rs.getString(1).equals("1");
       }
       if(istnieje==false){
-          dodajUser();
+          dodajClient();
           
       }
       else{
@@ -1197,9 +1249,9 @@ catch(Exception e){
    }
             catch (SQLException ex) {
                 Logger.getLogger(UserPanel.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (NoSuchAlgorithmException ex) {
-                Logger.getLogger(UserPanel.class.getName()).log(Level.SEVERE, null, ex);
-            }   finally {
+            }   catch (NoSuchAlgorithmException ex) {
+                    Logger.getLogger(ClientsWindow.class.getName()).log(Level.SEVERE, null, ex);
+                }   finally {
       try {
          if (stmt != null) { stmt.close(); }
       }
@@ -1214,70 +1266,26 @@ catch(Exception e){
       }
             }
         }
+            else{
+                jLabel28.setVisible(true);
+            }
+        }
+        
 
         // TODO add your handling code here:
     }//GEN-LAST:event_jPanel7MouseClicked
 
-    private void jPanel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel3MouseClicked
-if(login.equals("") || login.equals(" ")){
-    
-}
-else{
-czyUsun.setVisible(true);
-jLabel1.setText(login);
-}
-        
-
-    }//GEN-LAST:event_jPanel3MouseClicked
-
-    private void userTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_userTableMouseClicked
-DefaultTableModel model = (DefaultTableModel)userTable.getModel();
-selectedRowIndex = userTable.getSelectedRow();
-login = (String) userTable.getValueAt(selectedRowIndex, 0);
-        // TODO add your handling code here:
-    }//GEN-LAST:event_userTableMouseClicked
-
-    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
-        try {
-            odswiez();
-            // TODO add your handling code here:
-        } catch (SQLException ex) {
-            Logger.getLogger(UserPanel.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (NoSuchAlgorithmException ex) {
-            Logger.getLogger(UserPanel.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }//GEN-LAST:event_formWindowOpened
-
-    private void jPanel9MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel9MouseEntered
-jPanel9.setBackground(Color.getHSBColor(0, 0, (float) 0.98));
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jPanel9MouseEntered
-
-    private void jPanel9MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel9MouseExited
-jPanel9.setBackground(Color.getHSBColor(0, 0, (float) 1));
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jPanel9MouseExited
-
-    private void jPanel10MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel10MouseEntered
-jPanel10.setBackground(Color.getHSBColor(0, 0, (float) 0.98));
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jPanel10MouseEntered
-
-    private void jPanel10MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel10MouseExited
-jPanel10.setBackground(Color.getHSBColor(0, 0, (float) 1));
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jPanel10MouseExited
-
     private void jPanel9MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel9MouseClicked
-String deleteSQL = "DELETE FROM Users WHERE Login = ?";
-PreparedStatement preparedStatement = null;
+
+        String deleteSQL = "DELETE FROM Clients WHERE Pesel = ?";
+        PreparedStatement preparedStatement = null;
         try {
             preparedStatement = conn.prepareStatement(deleteSQL);
         } catch (SQLException ex) {
             Logger.getLogger(UserPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
         try {
-            preparedStatement.setString(1, login);
+            preparedStatement.setString(1, (String) userTable.getValueAt(selectedRowIndex, 4));
         } catch (SQLException ex) {
             Logger.getLogger(UserPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -1299,26 +1307,35 @@ PreparedStatement preparedStatement = null;
         }
     }//GEN-LAST:event_jPanel9MouseClicked
 
-    private void jPanel4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel4MouseClicked
+    private void jPanel9MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel9MouseEntered
 
-if(login.equals("") || login.equals(" ")){
-    
-}
-else{jLabel31.setVisible(false);
-jLabel4.setText(login);
-DefaultTableModel model = (DefaultTableModel)userTable.getModel();
-selectedRowIndex = userTable.getSelectedRow();
-login = (String) userTable.getValueAt(selectedRowIndex, 0);
-
-imieText1.setText((String) userTable.getValueAt(selectedRowIndex, 3)) ;
-nazwiskoText1.setText((String) userTable.getValueAt(selectedRowIndex, 4)) ;
-jComboBox2.setSelectedItem((String) userTable.getValueAt(selectedRowIndex, 2));
-jakieHaslo = (String) userTable.getValueAt(selectedRowIndex, 1);
-updateUser.setVisible(true);
-}
-        
+jPanel9.setBackground(Color.getHSBColor(0, 0, (float) 0.97));        
         // TODO add your handling code here:
-    }//GEN-LAST:event_jPanel4MouseClicked
+    }//GEN-LAST:event_jPanel9MouseEntered
+
+    private void jPanel9MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel9MouseExited
+jPanel9.setBackground(Color.getHSBColor(0, 0, (float) 1));        
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jPanel9MouseExited
+
+    private void jPanel10MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel10MouseEntered
+jPanel10.setBackground(Color.getHSBColor(0, 0, (float) 0.97));         
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jPanel10MouseEntered
+
+    private void jPanel10MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel10MouseExited
+jPanel10.setBackground(Color.getHSBColor(0, 0, (float) 1));        
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jPanel10MouseExited
+
+    private void jPanel10MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel10MouseClicked
+czyUsun.dispose();
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jPanel10MouseClicked
+
+    private void loginText1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginText1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_loginText1ActionPerformed
 
     private void hasloText1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hasloText1ActionPerformed
         // TODO add your handling code here:
@@ -1328,74 +1345,81 @@ updateUser.setVisible(true);
         // TODO add your handling code here:
     }//GEN-LAST:event_imieText1ActionPerformed
 
-    private void nazwiskoText1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nazwiskoText1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_nazwiskoText1ActionPerformed
-
     private void jPanel12MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel12MouseClicked
-if(nazwiskoText1.getText().equals("")||imieText1.getText().equals("")){
+if(loginText1.getText().equals("")||imieText1.getText().equals("")||hasloText1.getText().equals("")){
             jLabel31.setVisible(true);
         }
 else{
     try {
-        if(jCheckBox1.isSelected()==false){
-            String updateTableSQL = "UPDATE `sql2212964`.`Users` SET `Private`=?, `Name`=?, `Lastname`=? WHERE  `Login`=?";
-            PreparedStatement preparedStatement = conn.prepareStatement(updateTableSQL);
-            
-            preparedStatement.setString(1, (String) jComboBox1.getSelectedItem());
-            preparedStatement.setString(2, imieText1.getText());
-            preparedStatement.setString(3, nazwiskoText1.getText());
-            preparedStatement.setString(4, jLabel4.getText());
-            preparedStatement .executeUpdate();
+        String updateTableSQL = "UPDATE `sql2212964`.`Clients` SET `Name`=?, `Lastname`=?, `Email`=? WHERE  `Pesel`=?";
+        PreparedStatement preparedStatement = conn.prepareStatement(updateTableSQL);
+        
+        preparedStatement.setString(1, loginText1.getText());
+        preparedStatement.setString(2, hasloText1.getText());
+        preparedStatement.setString(3, imieText1.getText());
+        preparedStatement.setString(4, (String) userTable.getValueAt(selectedRowIndex, 4));
+      
+        
+        preparedStatement.executeUpdate();
+        try {
             odswiez();
-            updateUser.setVisible(false);
+        } catch (SQLException ex) {
+            Logger.getLogger(ClientsWindow.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (NoSuchAlgorithmException ex) {
+            Logger.getLogger(ClientsWindow.class.getName()).log(Level.SEVERE, null, ex);
         }
-        if(jCheckBox1.isSelected()==true){
-        String updateTableSQL = "UPDATE `sql2212964`.`Users` SET `Password`=?, `Private`=?, `Name`=?, `Lastname`=? WHERE  `Login`=?";
-            PreparedStatement preparedStatement = conn.prepareStatement(updateTableSQL);
-            
-            preparedStatement.setString(2, (String) jComboBox1.getSelectedItem());
-            preparedStatement.setString(3, imieText1.getText());
-            preparedStatement.setString(4, nazwiskoText1.getText());
-            preparedStatement.setString(1, hashPassword(hasloText1.getText()) );
-            preparedStatement.setString(5, jLabel4.getText());
-            
-            preparedStatement .executeUpdate();
-            odswiez();
-            updateUser.setVisible(false);
-    }    
-        }
-    catch (SQLException ex) {
-        Logger.getLogger(UserPanel.class.getName()).log(Level.SEVERE, null, ex);
-    } catch (NoSuchAlgorithmException ex) {
-        Logger.getLogger(UserPanel.class.getName()).log(Level.SEVERE, null, ex);
+        updateClient.setVisible(false);
+    } catch (SQLException ex) {
+        Logger.getLogger(ClientsWindow.class.getName()).log(Level.SEVERE, null, ex);
     }
 }
         // TODO add your handling code here:
     }//GEN-LAST:event_jPanel12MouseClicked
 
+    private void jPanel7MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel7MouseEntered
+jPanel7.setBackground(Color.getHSBColor(0, 0, (float) 0.97));
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jPanel7MouseEntered
+
+    private void jPanel7MouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel7MouseDragged
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jPanel7MouseDragged
+
+    private void jPanel7MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel7MouseExited
+jPanel7.setBackground(Color.getHSBColor(0, 0, (float) 1));
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jPanel7MouseExited
+
     private void jPanel12MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel12MouseEntered
-jPanel12.setBackground(Color.getHSBColor(0, 0, (float) 0.98));
+jPanel12.setBackground(Color.getHSBColor(0, 0, (float) 0.97)); 
         // TODO add your handling code here:
     }//GEN-LAST:event_jPanel12MouseEntered
 
     private void jPanel12MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel12MouseExited
-jPanel12.setBackground(Color.getHSBColor(0, 0, (float) 1));
+jPanel12.setBackground(Color.getHSBColor(0, 0, (float) 1)); 
         // TODO add your handling code here:
     }//GEN-LAST:event_jPanel12MouseExited
 
-    private void jCheckBox1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jCheckBox1MouseClicked
-        if(jCheckBox1.isSelected()==true)
-        {
-            hasloText1.setEnabled(true);
-        }
-        else{
-            hasloText1.setEnabled(false);
-        }
+    private void jLabel31MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel31MouseEntered
+jPanel12.setBackground(Color.getHSBColor(0, 0, (float) 0.97)); 
         // TODO add your handling code here:
-    }//GEN-LAST:event_jCheckBox1MouseClicked
+    }//GEN-LAST:event_jLabel31MouseEntered
 
-    
+    private void jLabel31MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel31MouseExited
+jPanel12.setBackground(Color.getHSBColor(0, 0, (float) 1)); 
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jLabel31MouseExited
+
+    private void jLabel27MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel27MouseEntered
+jPanel7.setBackground(Color.getHSBColor(0, 0, (float) 0.97));
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jLabel27MouseEntered
+
+    private void jLabel27MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel27MouseExited
+jPanel7.setBackground(Color.getHSBColor(0, 0, (float) 1));
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jLabel27MouseExited
+
     /**
      * @param args the command line arguments
      */
@@ -1413,20 +1437,20 @@ jPanel12.setBackground(Color.getHSBColor(0, 0, (float) 1));
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(UserPanel.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ClientsWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(UserPanel.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ClientsWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(UserPanel.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ClientsWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(UserPanel.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ClientsWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new UserPanel().setVisible(true);
+                new ClientsWindow().setVisible(true);
             }
         });
     }
@@ -1435,15 +1459,13 @@ jPanel12.setBackground(Color.getHSBColor(0, 0, (float) 1));
     private javax.swing.JLabel NetBest;
     private javax.swing.JLabel NetBest1;
     private javax.swing.JLabel NetBest2;
-    private javax.swing.JDialog addUser;
+    private javax.swing.JDialog addClient;
     private javax.swing.JDialog czyUsun;
     private javax.swing.JTextField hasloText;
     private javax.swing.JTextField hasloText1;
     private javax.swing.JTextField imieText;
     private javax.swing.JTextField imieText1;
-    private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -1458,8 +1480,6 @@ jPanel12.setBackground(Color.getHSBColor(0, 0, (float) 1));
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel21;
-    private javax.swing.JLabel jLabel22;
-    private javax.swing.JLabel jLabel23;
     private javax.swing.JLabel jLabel25;
     private javax.swing.JLabel jLabel26;
     private javax.swing.JLabel jLabel27;
@@ -1468,7 +1488,7 @@ jPanel12.setBackground(Color.getHSBColor(0, 0, (float) 1));
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel30;
     private javax.swing.JLabel jLabel31;
-    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel32;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel11;
@@ -1487,7 +1507,6 @@ jPanel12.setBackground(Color.getHSBColor(0, 0, (float) 1));
     private javax.swing.JSeparator jSeparator11;
     private javax.swing.JSeparator jSeparator12;
     private javax.swing.JSeparator jSeparator13;
-    private javax.swing.JSeparator jSeparator14;
     private javax.swing.JSeparator jSeparator15;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator3;
@@ -1498,9 +1517,9 @@ jPanel12.setBackground(Color.getHSBColor(0, 0, (float) 1));
     private javax.swing.JSeparator jSeparator8;
     private javax.swing.JSeparator jSeparator9;
     private javax.swing.JTextField loginText;
+    private javax.swing.JTextField loginText1;
     private javax.swing.JTextField nazwiskoText;
-    private javax.swing.JTextField nazwiskoText1;
-    private javax.swing.JDialog updateUser;
+    private javax.swing.JDialog updateClient;
     private javax.swing.JTable userTable;
     // End of variables declaration//GEN-END:variables
 }
