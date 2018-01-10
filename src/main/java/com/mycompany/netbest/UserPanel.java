@@ -478,6 +478,9 @@ public class UserPanel extends javax.swing.JFrame {
         jPanel10.setBackground(new java.awt.Color(255, 255, 255));
         jPanel10.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jPanel10.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jPanel10MouseClicked(evt);
+            }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 jPanel10MouseEntered(evt);
             }
@@ -1219,7 +1222,8 @@ catch(Exception e){
     }//GEN-LAST:event_jPanel7MouseClicked
 
     private void jPanel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel3MouseClicked
-if(login.equals("") || login.equals(" ")){
+
+        if(login.equals("") || login.equals(" ")){
     
 }
 else{
@@ -1395,6 +1399,11 @@ jPanel12.setBackground(Color.getHSBColor(0, 0, (float) 1));
         }
         // TODO add your handling code here:
     }//GEN-LAST:event_jCheckBox1MouseClicked
+
+    private void jPanel10MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel10MouseClicked
+czyUsun.dispose();
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jPanel10MouseClicked
 
     
     /**

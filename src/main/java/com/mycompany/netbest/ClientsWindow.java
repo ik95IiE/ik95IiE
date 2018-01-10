@@ -232,9 +232,7 @@ public class ClientsWindow extends javax.swing.JFrame {
         jLabel13 = new javax.swing.JLabel();
         jSeparator7 = new javax.swing.JSeparator();
 
-        addClient.setMaximumSize(new java.awt.Dimension(390, 550));
         addClient.setMinimumSize(new java.awt.Dimension(390, 550));
-        addClient.setPreferredSize(new java.awt.Dimension(390, 550));
         addClient.setResizable(false);
 
         jPanel6.setBackground(new java.awt.Color(255, 255, 255));
@@ -484,7 +482,6 @@ public class ClientsWindow extends javax.swing.JFrame {
             .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
-        czyUsun.setMaximumSize(new java.awt.Dimension(400, 200));
         czyUsun.setMinimumSize(new java.awt.Dimension(400, 200));
         czyUsun.setResizable(false);
 
@@ -813,7 +810,6 @@ public class ClientsWindow extends javax.swing.JFrame {
         setTitle("NetBest");
         setMaximumSize(new java.awt.Dimension(600, 625));
         setMinimumSize(new java.awt.Dimension(600, 625));
-        setPreferredSize(new java.awt.Dimension(600, 625));
         setResizable(false);
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowOpened(java.awt.event.WindowEvent evt) {
@@ -1346,7 +1342,8 @@ czyUsun.dispose();
     }//GEN-LAST:event_imieText1ActionPerformed
 
     private void jPanel12MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel12MouseClicked
-if(loginText1.getText().equals("")||imieText1.getText().equals("")||hasloText1.getText().equals("")){
+
+        if(loginText1.getText().equals("")||imieText1.getText().equals("")||hasloText1.getText().equals("")){
             jLabel31.setVisible(true);
         }
 else{

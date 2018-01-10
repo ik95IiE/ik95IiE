@@ -44,7 +44,7 @@ Connection conn;
         for(int i=0;i<37;i++){
               userTable.getModel().setValueAt(" ", i, 0);
               userTable.getModel().setValueAt(" ", i, 1);
-              userTable.getModel().setValueAt(" ", i, 2);
+              
               }
 
         try{
@@ -54,9 +54,9 @@ Connection conn;
               statement= conn.createStatement();
               rs = statement.executeQuery(queryString);
             for(int i=0;rs.next();i++){
-              userTable.getModel().setValueAt(rs.getString("ID_Product"), i, 0);
-              userTable.getModel().setValueAt(rs.getString("Name"), i, 1);
-              userTable.getModel().setValueAt(rs.getString("Price"), i, 2);
+              ;
+              userTable.getModel().setValueAt(rs.getString("Name"), i, 0);
+              userTable.getModel().setValueAt(rs.getString("Price"), i, 1);
               }
        }
        catch(Exception e){
@@ -157,9 +157,7 @@ Connection conn;
         jLabel13 = new javax.swing.JLabel();
         jSeparator7 = new javax.swing.JSeparator();
 
-        addProdukt.setMaximumSize(new java.awt.Dimension(390, 550));
         addProdukt.setMinimumSize(new java.awt.Dimension(390, 550));
-        addProdukt.setPreferredSize(new java.awt.Dimension(390, 550));
         addProdukt.setResizable(false);
 
         jPanel6.setBackground(new java.awt.Color(255, 255, 255));
@@ -314,9 +312,7 @@ Connection conn;
             .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
-        czyUsun.setMaximumSize(new java.awt.Dimension(400, 200));
         czyUsun.setMinimumSize(new java.awt.Dimension(400, 200));
-        czyUsun.setPreferredSize(new java.awt.Dimension(400, 200));
         czyUsun.setResizable(false);
 
         jPanel8.setBackground(new java.awt.Color(255, 255, 255));
@@ -451,9 +447,7 @@ Connection conn;
             .addComponent(jPanel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
-        updateProduct.setMaximumSize(new java.awt.Dimension(390, 550));
         updateProduct.setMinimumSize(new java.awt.Dimension(390, 550));
-        updateProduct.setPreferredSize(new java.awt.Dimension(390, 550));
         updateProduct.setResizable(false);
 
         jPanel11.setBackground(new java.awt.Color(255, 255, 255));
@@ -611,7 +605,6 @@ Connection conn;
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setMaximumSize(new java.awt.Dimension(600, 625));
         setMinimumSize(new java.awt.Dimension(600, 625));
-        setPreferredSize(new java.awt.Dimension(600, 625));
         setResizable(false);
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowOpened(java.awt.event.WindowEvent evt) {
@@ -627,54 +620,54 @@ Connection conn;
 
         userTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {"", "", null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
+                {"", null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null}
             },
             new String [] {
-                "ID Produktu", "Opis", "Cena"
+                "Opis", "Cena"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Object.class, java.lang.Object.class, java.lang.String.class
+                java.lang.Object.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false
+                false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -906,6 +899,7 @@ Connection conn;
 
     private void jPanel2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel2MouseClicked
 
+        
         addProdukt.setVisible(true);
         jLabel25.setVisible(false);
         // TODO add your handling code here:
@@ -926,7 +920,7 @@ if(userTable.getValueAt(selectedRowIndex, 1).equals(" ")||login==null){
     
 }
 else{
-    jLabel1.setText((String) userTable.getValueAt(selectedRowIndex, 1));
+    jLabel1.setText((String) userTable.getValueAt(selectedRowIndex, 0));
 czyUsun.setVisible(true);
 }
         
@@ -943,14 +937,14 @@ czyUsun.setVisible(true);
     }//GEN-LAST:event_jPanel3MouseExited
 
     private void jPanel4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel4MouseClicked
-if(userTable.getValueAt(selectedRowIndex, 1).equals(" ")||login==null){
+if(userTable.getValueAt(selectedRowIndex, 0).equals(" ")||login==null){
     
 }
 else{
    jLabel26.setVisible(false);
 updateProduct.setVisible(true);
-loginText1.setText((String) userTable.getValueAt(selectedRowIndex, 1));
-    jSpinner2.setValue(Float.parseFloat((String) userTable.getValueAt(selectedRowIndex, 2)));
+loginText1.setText((String) userTable.getValueAt(selectedRowIndex, 0));
+    jSpinner2.setValue(Float.parseFloat((String) userTable.getValueAt(selectedRowIndex, 1)));
 }
         
         // TODO add your handling code here:
@@ -1054,7 +1048,7 @@ try {
     }//GEN-LAST:event_loginTextActionPerformed
 
     private void jPanel9MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel9MouseClicked
-        String deleteSQL = "DELETE FROM Products WHERE Id_Product = ?";
+        String deleteSQL = "DELETE FROM Products WHERE Name = ?";
         PreparedStatement preparedStatement = null;
         try {
             preparedStatement = conn.prepareStatement(deleteSQL);
@@ -1149,12 +1143,12 @@ if(loginText1.getText().equals("")){
 else{
     try {
         
-        String updateTableSQL = "UPDATE `sql2212964`.`Products` SET `Name`=?, `Price`=? WHERE  `Id_Product`=?";
+        String updateTableSQL = "UPDATE `sql2212964`.`Products` SET `Name`=?, `Price`=? WHERE  `Name`=?";
             PreparedStatement preparedStatement = conn.prepareStatement(updateTableSQL);
             
             preparedStatement.setString(1, loginText1.getText());
             preparedStatement.setFloat(2, (float) jSpinner2.getValue());
-            preparedStatement.setInt(3, Integer.parseInt((String) userTable.getValueAt(selectedRowIndex, 0)) );
+            preparedStatement.setString(3, (String) userTable.getValueAt(selectedRowIndex, 0) );
             
             preparedStatement .executeUpdate();
             odswiez();
